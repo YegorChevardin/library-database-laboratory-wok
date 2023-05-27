@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+}
+
+group = 'ua.com.khpi.database.yegorchevardin.lab07'
+version = '0.0.1'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springVersion = "6.0.7"
+    lombokVersion = "org.projectlombok:lombok:1.18.26"
+}
+
+dependencies {
+    compileOnly lombokVersion
+    annotationProcessor lombokVersion
+
+    testCompileOnly lombokVersion
+    testAnnotationProcessor lombokVersion
+
+    implementation "org.springframework:spring-core:${springVersion}"
+    implementation "org.springframework:spring-context:${springVersion}"
+    implementation 'com.mysql:mysql-connector-j:8.0.33'
+    implementation "com.zaxxer:HikariCP:5.0.1"
+    testImplementation 'org.glassfish:jakarta.el:4.0.2'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'tech.tablesaw:tablesaw-core:0.43.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.slf4j:slf4j-simple:2.0.7'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.7'
+}
+
+jar {
+    duplicatesStrategy = 'exclude'
+    manifest {
+        attributes (
+                'Main-Class': 'ua.com.khpi.database.yegorchevardin.lab07.Main',
+                'Implementation-Title': 'Library',
+                'Implementation-Version': '0.0.1'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
